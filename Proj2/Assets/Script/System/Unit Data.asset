@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3fa48d8e5ee00498013c8264138f31, type: 3}
+  m_Name: Unit Data
+  m_EditorClassIdentifier: 
+  unitData:
+  - <Name>k__BackingField: knight
+    <ID>k__BackingField: 0
+    Meat_Cost: 0
+    MaxHealth: 0
+    Atk_Dame: 40
+  - <Name>k__BackingField: archer
+    <ID>k__BackingField: 1
+    Meat_Cost: 0
+    MaxHealth: 0
+    Atk_Dame: 0
+  - <Name>k__BackingField: pawn
+    <ID>k__BackingField: 2
+    Meat_Cost: 0
+    MaxHealth: 0
+    Atk_Dame: 0
+  - <Name>k__BackingField: tnt goblin
+    <ID>k__BackingField: 3
+    Meat_Cost: 0
+    MaxHealth: 0
+    Atk_Dame: 0
