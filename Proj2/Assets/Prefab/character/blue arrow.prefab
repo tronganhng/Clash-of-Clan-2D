@@ -170,4 +170,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyLayer: Red
   speed: 10
-  dame: 30
+  dame: 0

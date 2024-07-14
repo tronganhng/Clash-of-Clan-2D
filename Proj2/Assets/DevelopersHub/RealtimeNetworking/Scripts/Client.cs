@@ -87,6 +87,7 @@ namespace DevelopersHub.RealtimeNetworking.Client
         {
             if (_isConnected || _connecting)
             {
+                Debug.Log("conected");
                 return;
             }
 

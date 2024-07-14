@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Proj2.clashofclan_2d;
 using UnityEngine;
 using Pathfinding;
 
@@ -11,10 +10,13 @@ public class TNTAttack : MonoBehaviour
     private float attackTime;
     AIDestinationSetter ai_point;
     Animator ani;
+    Data.DefineUnit stat;
+
     void Start()
     {
         ani = GetComponent<Animator>();
         ai_point = GetComponent<AIDestinationSetter>();
+        stat = GetComponent<UnitStats>().stat;
     }
 
     
@@ -35,5 +37,6 @@ public class TNTAttack : MonoBehaviour
     {
         GameObject clone_TNT = Instantiate(TNT, atk_point.position, transform.rotation);
         clone_TNT.GetComponent<TNT>().target = ai_point.target;
+        clone_TNT.GetComponent<TNT>().dame = stat.damage;
     }
 }

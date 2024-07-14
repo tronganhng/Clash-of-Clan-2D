@@ -177,5 +177,5 @@ MonoBehaviour:
   target: {fileID: 0}
   enemyLayer: Red
   rotation_speed: 350
-  dame: 37
+  dame: 0
   const_y: 3.5

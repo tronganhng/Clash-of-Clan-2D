@@ -15,21 +15,13 @@ MonoBehaviour:
   unitData:
   - <Name>k__BackingField: knight
     <ID>k__BackingField: 0
-    Meat_Cost: 0
-    MaxHealth: 0
-    Atk_Dame: 40
+    <Prefab>k__BackingField: {fileID: 6569534772219726902, guid: 5ba1c9b1f61344941843de1741e1759e, type: 3}
   - <Name>k__BackingField: archer
     <ID>k__BackingField: 1
-    Meat_Cost: 0
-    MaxHealth: 0
-    Atk_Dame: 0
+    <Prefab>k__BackingField: {fileID: 4442812690605159564, guid: b9c46e74e17be2e43bab6db1d36a2986, type: 3}
   - <Name>k__BackingField: pawn
     <ID>k__BackingField: 2
-    Meat_Cost: 0
-    MaxHealth: 0
-    Atk_Dame: 0
+    <Prefab>k__BackingField: {fileID: 7047406617604336864, guid: 52bae7ec11ece3743ad9fa2ce9ee051f, type: 3}
   - <Name>k__BackingField: tnt goblin
     <ID>k__BackingField: 3
-    Meat_Cost: 0
-    MaxHealth: 0
-    Atk_Dame: 0
+    <Prefab>k__BackingField: {fileID: 9028140681188478364, guid: 2463ba376fa2cbb41919df1d51fcb43f, type: 3}

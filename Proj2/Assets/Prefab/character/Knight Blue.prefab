@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6569534772219726901}
   - component: {fileID: 6569534772219726900}
   - component: {fileID: 6569534772219726903}
+  - component: {fileID: 5569922889032870567}
   m_Layer: 9
   m_Name: Knight Blue
   m_TagString: Player
@@ -355,6 +356,18 @@ MonoBehaviour:
     m_Bits: 128
   atk_range: 0.8
   atk_rate: 2.5
+--- !u!114 &5569922889032870567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569534772219726902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9199eead808ede444b28c6556d45d8de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6569534772282226181
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +638,7 @@ MonoBehaviour:
   Destroy_obj: {fileID: 0}
   canvasGroup: {fileID: 670640467785937663}
   healbar: {fileID: 6569534774124899271}
-  MaxHeal: 200
+  MaxHeal: 0
   currentHeal: 0
   hurt_cooldown: 2.5
   healbar_duration: 1.3

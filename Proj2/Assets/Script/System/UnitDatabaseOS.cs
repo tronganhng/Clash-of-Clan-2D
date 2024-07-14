@@ -17,9 +17,5 @@ public class UnitData
     [field: SerializeField]
     public int ID{get; private set; }
     [field: SerializeField]
-    public int Meat_Cost;
-    [field: SerializeField]
-    public int MaxHealth;
-    [field: SerializeField]
-    public int Atk_Dame;
+    public GameObject Prefab { get; private set; }
 }

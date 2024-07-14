@@ -70,6 +70,7 @@ public class TowerAttack : MonoBehaviour
     }
     void SpawnArrow()
     {
-        Instantiate(arrow, atk_point.position, transform.rotation);
+        GameObject newArrow = Instantiate(arrow, atk_point.position, transform.rotation);
+        newArrow.GetComponent<ArrowMove>().dame = (int)GetComponentInParent<BuildingDefineData>().def_build.damage;
     }
 }

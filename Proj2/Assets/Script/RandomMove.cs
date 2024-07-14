@@ -7,7 +7,6 @@ public class RandomMove : MonoBehaviour
 {
     SpriteRenderer sprite;
     Seeker seeker;
-    Stat stat;
     AIPath aIPath;
     Animator ani;
     [SerializeField] private GameObject random_point;
@@ -19,10 +18,8 @@ public class RandomMove : MonoBehaviour
         aides = GetComponent<AIDestinationSetter>();
         sprite = GetComponent<SpriteRenderer>();
         seeker = GetComponent<Seeker>();
-        stat = GetComponent<Stat>();
         aIPath = GetComponent<AIPath>();
         ani = GetComponent<Animator>();
-        SetLayer(stat.floor);
         aides.target = transform;
     }
 

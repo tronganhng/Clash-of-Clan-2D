@@ -2,26 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
+using Proj2.clashofclan_2d;
 
 public class KnightCombat : MonoBehaviour
 {
     Animator ani;
-    Movement move;
-    SpriteRenderer sprite;
     AIDestinationSetter ai_point;
     public UnitDatabaseOS unitDataOS;
     public Transform atk_point, atkup_point, atkdown_point;
     public LayerMask enemyLayer;
     public float atk_range ,atk_rate;
     private float AttackTime;
+    Data.DefineUnit stat;
     private enum Direction {side, up, down}  //tao ra data type
     void Start()
     {
         ani = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
-        move = GetComponent<Movement>();
         ai_point = GetComponent<AIDestinationSetter>();
         AttackTime = Time.time + atk_rate;
+        stat = GetComponent<UnitStats>().stat;
     }
 
     
@@ -61,7 +60,7 @@ public class KnightCombat : MonoBehaviour
         Collider2D[] hit_enemy = Physics2D.OverlapCircleAll(atk_point.position, atk_range, enemyLayer);
         foreach (Collider2D enemy in hit_enemy)
         {
-            ai_point.target.GetComponentInChildren<Health>().TakeDame(unitDataOS.unitData[0].Atk_Dame); // chỉ gây dame lên target
+            ai_point.target.GetComponentInChildren<Health>().TakeDame(stat.damage); // chỉ gây dame lên target
         }
     }
 
@@ -70,7 +69,7 @@ public class KnightCombat : MonoBehaviour
         Collider2D[] hit_enemy = Physics2D.OverlapCircleAll(atkup_point.position, atk_range, enemyLayer);
         foreach (Collider2D enemy in hit_enemy)
         {
-            ai_point.target.GetComponentInChildren<Health>().TakeDame(unitDataOS.unitData[0].Atk_Dame);
+            ai_point.target.GetComponentInChildren<Health>().TakeDame(stat.damage);
         }
     }
 
@@ -79,7 +78,7 @@ public class KnightCombat : MonoBehaviour
         Collider2D[] hit_enemy = Physics2D.OverlapCircleAll(atkdown_point.position, atk_range, enemyLayer);
         foreach (Collider2D enemy in hit_enemy)
         {
-            ai_point.target.GetComponentInChildren<Health>().TakeDame(unitDataOS.unitData[0].Atk_Dame);
+            ai_point.target.GetComponentInChildren<Health>().TakeDame(stat.damage);
         }
     }
 

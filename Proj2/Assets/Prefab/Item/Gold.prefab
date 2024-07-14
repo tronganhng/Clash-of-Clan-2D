@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8266058108347773541}
   - component: {fileID: 8266058108347773540}
   - component: {fileID: 8266058108347773543}
+  - component: {fileID: 3246691376834577618}
   m_Layer: 0
   m_Name: Gold
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 265489491
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 2039113800, guid: 02f9756cde66c1d4388f65872f7b4ee8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -106,3 +107,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3246691376834577618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8266058108347773542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0e30b5cef72de429a870f25733eb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  item_index: 0
+  quantity: 0
+  DesName: GoldUI

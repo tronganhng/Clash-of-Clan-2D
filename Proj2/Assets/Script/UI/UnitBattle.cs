@@ -10,6 +10,7 @@ public class UnitBattle : MonoBehaviour
     public Sprite[] unit_sprite;
     public int char_select = -1;
     public static UnitBattle instance;
+    public Dictionary<string, GameObject> battle_unit = new();
     void Start()
     {
         instance = this;
@@ -29,6 +30,7 @@ public class UnitBattle : MonoBehaviour
                 newUnit.GetComponent<Image>().sprite = unit_sprite[index];
                 newUnit.GetComponentInChildren<Button>().GetComponent<Image>().sprite = unit_sprite[index];
                 newUnit.GetComponentInChildren<Button>().onClick.AddListener(() => UnitSelecting(index));
+                battle_unit[kvp.Key] = newUnit;
             }
         }
     }

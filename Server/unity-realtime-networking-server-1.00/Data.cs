@@ -43,6 +43,8 @@ namespace DevelopersHub.RealtimeNetworking.Server
             public int req_gold = 0;
             public int req_wood = 0;
             public int req_Barracklv = 1;
+            public int health = 50;
+            public int damage = 0;
         }
 
         public class Building

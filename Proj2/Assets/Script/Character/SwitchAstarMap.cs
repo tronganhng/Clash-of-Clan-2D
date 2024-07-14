@@ -12,14 +12,14 @@ public class SwitchAstarMap : MonoBehaviour
     Seeker seeker;
     GameObject target;
     Transform stare_point;
-    Stat stat;
+    public int stat = 0; // taangf
     public Canvas canvas;
     //public int floor = -1;
     float endAIdis, slowAIdis;
-    bool a = true;
+    //bool a = true;
     void Start()
     {
-        stat = GetComponent<Stat>();
+       
         aiPath = GetComponent<AIPath>();
         ai_point = GetComponent<AIDestinationSetter>();
         seeker = GetComponent<Seeker>();
@@ -27,10 +27,10 @@ public class SwitchAstarMap : MonoBehaviour
         stare_point = GameObject.Find("stare point").transform;
         endAIdis = aiPath.endReachedDistance;
         slowAIdis = aiPath.slowdownDistance;
-        SetLayer(stat.floor);
+        //SetLayer(stat);
     }
 
-    void Update() 
+    /*void Update() 
     {
         FindStare();
         OffStare();
@@ -56,7 +56,7 @@ public class SwitchAstarMap : MonoBehaviour
     {
         if(ai_point.target != null && ai_point.target != stare_point) // nếu tồn tại target khác stare point
         {
-            if(ai_point.target.parent.GetComponent<Stat>().floor != stat.floor) // nếu target ở tầng khác
+            if(ai_point.target.parent.GetComponent<Stat>().floor != stat) // nếu target ở tầng khác
             {
                 target = ai_point.target.gameObject; // lưu lại target
                 aiPath.endReachedDistance = 1;
@@ -94,5 +94,5 @@ public class SwitchAstarMap : MonoBehaviour
     {
         aiPath.endReachedDistance = endAIdis;
         aiPath.slowdownDistance = slowAIdis;
-    }
+    }*/
 }

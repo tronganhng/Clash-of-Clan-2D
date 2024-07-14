@@ -39,7 +39,10 @@ namespace DevelopersHub.RealtimeNetworking.Server
             UPGRADE = 6,   // nâng cấp building
             TRAIN = 7,   // training unit
             CANCEL_TRAIN = 8,
-            FIND_ENEMY = 9
+            FIND_ENEMY = 9,
+            CLAIM_ITEM = 10,
+            CLEAR_STORAGE = 11,  // xóa storage của goldmine, woodmine khi bị đánh
+            UPDATE_UNIT = 12 // cap nhat so luong troop
         }
 
         public static void ReceivedPacket(int clientID, Packet packet)
@@ -100,6 +103,19 @@ namespace DevelopersHub.RealtimeNetworking.Server
                     break;
                 case 9:
                     Database.FindEnemy(clientID);
+                    break;
+                case 10:
+                    type = packet.ReadString();
+                    int amount = packet.ReadInt();
+                    Database.ClaimItem(clientID, type, amount);
+                    break;
+                case 11:
+                    int build_id = packet.ReadInt();
+                    Database.ClearStorage(build_id);
+                    break;
+                case 12:
+                    unitName = packet.ReadString();
+                    Database.PlaceUnit(clientID, unitName);
                     break;
             }
         }

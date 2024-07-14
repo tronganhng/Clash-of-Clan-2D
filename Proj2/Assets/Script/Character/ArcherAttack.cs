@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
+using Proj2.clashofclan_2d;
 
 public class ArcherAttack : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ArcherAttack : MonoBehaviour
     public Health health;
     public float atk_range, atk_rate;
     private float AttackTime;
+    Data.DefineUnit stat;
     
     void Start()
     {
@@ -20,6 +22,7 @@ public class ArcherAttack : MonoBehaviour
         parent_sprite = transform.parent.GetComponent<SpriteRenderer>();
         parent_ani = transform.parent.GetComponent<Animator>();
         ani = GetComponent<Animator>();
+        stat = GetComponentInParent<UnitStats>().stat;
     }
 
     
@@ -62,6 +65,7 @@ public class ArcherAttack : MonoBehaviour
     }
 
     void SpawnArrow(){
-        Instantiate(arrow, atk_point.position, transform.rotation);
+        GameObject newarrow = Instantiate(arrow, atk_point.position, transform.rotation);
+        newarrow.GetComponent<ArrowMove>().dame = stat.damage;
     }
 }

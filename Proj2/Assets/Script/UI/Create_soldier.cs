@@ -41,6 +41,14 @@ namespace Proj2.clashofclan_2d
                     training_unit.GetComponent<Train_unit>().quantity_txt.text = "x" + kvp.Value.training;
                 }           
             }
+            foreach (KeyValuePair<int, GameObject> kvp in Buildings.instance.build_prefab)
+            {
+                BuildingDefineData buildDef = kvp.Value.GetComponent<BuildingDefineData>();
+                if (buildDef.building.buildingName == "barrack")
+                {
+                    barrack_capa += buildDef.def_build.capacity;
+                }
+            }
             slot.text = occupy + "/" + barrack_capa;
         }
 
@@ -111,7 +119,6 @@ namespace Proj2.clashofclan_2d
                 BuildingDefineData buildDef = kvp.Value.GetComponent<BuildingDefineData>();
                 if (buildDef.building.buildingName == "barrack")
                 {
-                    barrack_capa += buildDef.def_build.capacity;
                     if (buildDef.building.level >= barrackLV)
                         barrackLV = buildDef.building.level;
                 }    

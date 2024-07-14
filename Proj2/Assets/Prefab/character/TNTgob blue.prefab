@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 9028140681188478356}
   - component: {fileID: 9028140681188478359}
   - component: {fileID: 9028140681188478344}
+  - component: {fileID: -434517271921546271}
   m_Layer: 9
   m_Name: TNTgob blue
   m_TagString: Player
@@ -542,9 +543,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  Boxsize: {x: 28, y: 16}
+  Boxsize: {x: 30, y: 20}
   detect: 0
-  def: 0
 --- !u!114 &9028140681188478344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,6 +560,27 @@ MonoBehaviour:
   atk_point: {fileID: 9028140680129295290}
   TNT: {fileID: 980234179342598824, guid: e5a9c609e5f946441a1a8cee85af6f4a, type: 3}
   atk_rate: 3
+--- !u!114 &-434517271921546271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9028140681188478364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9199eead808ede444b28c6556d45d8de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 1
+    train_time: 0
+    req_gold: 0
+    req_wood: 0
+    req_Barracklv: 1
+    health: 50
+    damage: 0
 --- !u!1 &9028140681280766404
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +629,7 @@ MonoBehaviour:
   Destroy_obj: {fileID: 0}
   canvasGroup: {fileID: 9028140681972238089}
   healbar: {fileID: 9028140680954107381}
-  MaxHeal: 200
+  MaxHeal: 0
   currentHeal: 0
   hurt_cooldown: 2.5
   healbar_duration: 1.3

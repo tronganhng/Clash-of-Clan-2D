@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
+using Proj2.clashofclan_2d;
 
 public class PawnChop : MonoBehaviour
 {
@@ -10,13 +11,16 @@ public class PawnChop : MonoBehaviour
     AIDestinationSetter ai_point;
     public Transform atk_point;
     public LayerMask targetLayer;
-    public float chop_range ,chop_rate, chop_dame;
+    public float chop_range ,chop_rate;
     private float AttackTime;
+    Data.DefineUnit stat;
+
     void Start()
     {
         ani = GetComponent<Animator>();
         move = GetComponent<Movement>();   
         ai_point = move.aipath.GetComponent<AIDestinationSetter>();
+        stat = GetComponent<UnitStats>().stat;
     }
 
 
@@ -44,7 +48,7 @@ public class PawnChop : MonoBehaviour
         Collider2D[] hit_tree = Physics2D.OverlapCircleAll(atk_point.position, chop_range, targetLayer);
         foreach (Collider2D tree in hit_tree)
         {
-            tree.GetComponent<Health>().TakeDame(chop_dame);
+            tree.GetComponent<Health>().TakeDame(stat.damage);
         }
     }
 

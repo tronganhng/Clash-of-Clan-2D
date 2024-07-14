@@ -6,7 +6,8 @@ public class TNT : MonoBehaviour
 {
     public Transform target;
     public string enemyLayer;
-    public float rotation_speed, dame, const_y;
+    public float rotation_speed, const_y;
+    public int dame;
     bool ishit;
     Rigidbody2D rb;
     Animator ani;

@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyLayer: Blue
   speed: 10
-  dame: 30
+  dame: 0
 --- !u!95 &7010826649556303511
 Animator:
   serializedVersion: 5

@@ -375,6 +375,8 @@ namespace DevelopersHub.RealtimeNetworking.Server
                                     defUnit.req_gold = int.Parse(reader["req_gold"].ToString());
                                     defUnit.req_wood = int.Parse(reader["req_wood"].ToString());
                                     defUnit.req_Barracklv = int.Parse(reader["req_Barracklv"].ToString());
+                                    defUnit.health = int.Parse(reader["health"].ToString());
+                                    defUnit.damage = int.Parse(reader["damage"].ToString());
                                     defData.Add(defUnit);
                                 }
                             }
@@ -879,7 +881,8 @@ namespace DevelopersHub.RealtimeNetworking.Server
                                     unitdata.req_gold = int.Parse(reader["req_gold"].ToString());
                                     unitdata.req_wood = int.Parse(reader["req_wood"].ToString());
                                     unitdata.req_Barracklv = int.Parse(reader["req_Barracklv"].ToString());
-                                    
+                                    unitdata.health = int.Parse(reader["health"].ToString());
+                                    unitdata.damage = int.Parse(reader["damage"].ToString());
                                 }
                             }
                         }
@@ -1056,6 +1059,7 @@ namespace DevelopersHub.RealtimeNetworking.Server
 
             Packet packet = new Packet();
             packet.Write(9);
+            packet.Write(enemyID);
             packet.Write(enemydata);
             Sender.TCP_Send(clientId, packet);
         }
@@ -1085,6 +1089,66 @@ namespace DevelopersHub.RealtimeNetworking.Server
                 return enemy_id;
             });
             return await task;
+        }
+
+
+        // 10----CLAIM ITEM----
+        public async static void ClaimItem(int clientId, string type, int amount)
+        {            
+            await Task.Run(() =>
+            {
+                long account_id = Server.clients[clientId].account_id;
+                int gold_amount = 0, wood_amount = 0;
+                if (type == "gold") gold_amount = amount;
+                else if (type == "wood") wood_amount = amount;
+                using (MySqlConnection connection = GetMySqlConnection())
+                {
+                    UpdateResourceAsync(connection, account_id, gold_amount, wood_amount);
+                    connection.Close();
+                }                
+            });
+            Data.Player playerdata = await GetPlayerDataAsync(clientId);
+
+            Packet packet = new Packet();
+            packet.Write(10); 
+            packet.Write(playerdata.gold);
+            packet.Write(playerdata.wood);
+            Sender.TCP_Send(clientId, packet);
+        }
+
+        // 11----CLEAR STORAGE----
+        public async static void ClearStorage(int build_id)
+        {
+            await Task.Run(() =>
+            {
+                using (MySqlConnection connection = GetMySqlConnection())
+                {
+                    string query = String.Format("UPDATE buildings SET storage = 0 WHERE id = {0};", build_id);
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+            });
+        }
+
+        // 12----UPDATE UNIT----
+        public async static void PlaceUnit(int clientId, string unitName)
+        {
+            await Task.Run(() =>
+            {
+                long account_id = Server.clients[clientId].account_id;
+                using (MySqlConnection connection = GetMySqlConnection())
+                {
+                    string query = String.Format("UPDATE units SET ready = ready - 1 WHERE account_id = {0} AND name = '{1}';", account_id, unitName);
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+            });
         }
 
         // ----UPDATE----

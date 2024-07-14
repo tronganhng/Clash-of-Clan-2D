@@ -7,7 +7,8 @@ public class ArrowMove : MonoBehaviour
     Animator ani;
     Rigidbody2D rb;
     public string enemyLayer;
-    public float speed, dame;
+    public float speed;
+    public int dame;
     void Start()
     {
         ani = GetComponent<Animator>();
