@@ -43,3 +43,9 @@ MonoBehaviour:
     <Prefab>k__BackingField: {fileID: 2585726027469475594, guid: 436ff370e875d654f83b74ad278bc513, type: 3}
     <gold_require>k__BackingField: 50
     <wood_require>k__BackingField: 0
+  - <Name>k__BackingField: barrel
+    <ID>k__BackingField: 5
+    <Size>k__BackingField: {x: 1, y: 1}
+    <Prefab>k__BackingField: {fileID: 8448502944496812646, guid: 3279d6981ed78e940aed246cd61dd598, type: 3}
+    <gold_require>k__BackingField: 20
+    <wood_require>k__BackingField: 20

@@ -8,6 +8,7 @@ using DevelopersHub.RealtimeNetworking.Client;
 public class Battle : MonoBehaviour
 {
     public BuildingDatabaseOS buildDataOS;
+    public GameObject DisconnectUI;
     public AstarPath Astar_map;
     public long enemy_id;
 
@@ -32,9 +33,10 @@ public class Battle : MonoBehaviour
     float timer = 0;
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 1) return;
+        if (SceneManager.GetActiveScene().buildIndex != 2) return;
         if (instance == null) instance = this;
         RealtimeNetworking.OnPacketReceived += ReceivedPacket;
+        RealtimeNetworking.OnDisconnectedFromServer += DisconnectedFromServer;
         if (Client.instance.isConnected)
         {
             Packet packet = new Packet();
@@ -42,8 +44,6 @@ public class Battle : MonoBehaviour
             packet.Write(SystemInfo.deviceUniqueIdentifier);
             Sender.TCP_Send(packet);
         }
-        else
-            ConnectToServer();
     }
 
     void Update()
@@ -60,6 +60,10 @@ public class Battle : MonoBehaviour
                 timer += Time.deltaTime;
             }
 
+        }
+        if (!Client.instance.isConnected)
+        {
+            DisconnectUI.SetActive(true);
         }
     }
 
@@ -83,7 +87,12 @@ public class Battle : MonoBehaviour
             case 2: // SYNC
                 string data = packet.ReadString();
                 Data.Player playerdata = Data.Deserialize<Data.Player>(data);
-                SyncPlayerData(playerdata);               
+                SyncPlayerData(playerdata);
+                CombatSystem.instance.unitAlive_cnt = 0;
+                foreach (KeyValuePair<string, Data.Unit> kvp in Units.instance.units)
+                {
+                    CombatSystem.instance.unitAlive_cnt += kvp.Value.ready;
+                }
                 break;
             case 9: // FIND ENEMY
                 Debug.Log("recieve 9");
@@ -91,6 +100,7 @@ public class Battle : MonoBehaviour
                 string enemydata = packet.ReadString();
                 Data.Player enemyData = Data.Deserialize<Data.Player>(enemydata);
                 SyncEnemyData(enemyData);
+                CombatSystem.instance.buildAlive_cnt = Buildings.instance.build_prefab.Count;
                 EnemyResource.instance.GetResource();
                 Astar_map.Scan();
                 break;
@@ -161,33 +171,17 @@ public class Battle : MonoBehaviour
         // UI unit
         UnitBattle.instance.SetupUnitBattle();
     }
-
-    void ConnectionResponse(bool sucessful)
-    {
-        if (sucessful)
-        {
-            RealtimeNetworking.OnDisconnectedFromServer += DisconnectedFromServer;
-            string device = SystemInfo.deviceUniqueIdentifier;
-            Packet packet = new Packet();
-            packet.Write((int)RequestID.AUTH);
-            packet.Write(device);
-            Sender.TCP_Send(packet);
-        }
-        else
-        {
-            // fail -> reconnect
-        }
-        RealtimeNetworking.OnConnectingToServerResult -= ConnectionResponse;
-    }
-    public void ConnectToServer()
-    {        
-        RealtimeNetworking.OnConnectingToServerResult += ConnectionResponse;  
-        RealtimeNetworking.Connect();
-    }
-    void DisconnectedFromServer()
+    
+    public void DisconnectedFromServer()
     {
         connected = false;
+        Debug.Log("Disconnected!");
         RealtimeNetworking.OnDisconnectedFromServer -= DisconnectedFromServer;
-        // reconnect
+    }
+
+    public void Reconnect()
+    {
+        RealtimeNetworking.OnPacketReceived -= ReceivedPacket;
+        SceneManager.LoadScene(0);
     }
 }

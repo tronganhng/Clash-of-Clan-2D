@@ -9,6 +9,7 @@
 
     public class Player : MonoBehaviour
     {
+        public GameObject DisconnectUI;
         public Text Nofication;
         public enum RequestID
         {
@@ -31,21 +32,25 @@
 
         public static Player instance = null;
 
-        void Start()
+        private void Awake()
         {
             if (instance == null) instance = this;
-            // thêm hàm vào event
-            if (SceneManager.GetActiveScene().buildIndex != 0) return;
+        }
+
+        void Start()
+        {            
+            if (SceneManager.GetActiveScene().buildIndex != 1) return;
+         
             RealtimeNetworking.OnPacketReceived += ReceivedPacket;
+            RealtimeNetworking.OnDisconnectedFromServer += DisconnectedFromServer;
+            
             if (Client.instance.isConnected)
-            {                
+            {
                 Packet packet = new Packet();
                 packet.Write((int)RequestID.AUTH);
                 packet.Write(SystemInfo.deviceUniqueIdentifier);
                 Sender.TCP_Send(packet);
             }
-            else
-                ConnectToServer();
         }
 
         void Update()
@@ -65,9 +70,12 @@
                 else
                 {
                     timer += Time.deltaTime;
-                } 
-                    
-            }    
+                }
+            }
+            if(!Client.instance.isConnected)
+            {                
+                DisconnectUI.SetActive(true);
+            }
         }
 
         // nhận đc gói tin packet từ server
@@ -104,15 +112,16 @@
                     if (canPlace)
                     {
                         string defbuild = packet.ReadString();
-                        string build = packet.ReadString();                        
+                        string build = packet.ReadString();
+                        string resource = packet.ReadString();
                         Data.DefineBuilding defBuild = Data.Deserialize<Data.DefineBuilding>(defbuild);
                         Data.Building Build = Data.Deserialize<Data.Building>(build);
-
+                        Data.Player Resource = Data.Deserialize<Data.Player>(resource);
                         PlacementSystem.instance.buildData = Build;
                         PlacementSystem.instance.defData = defBuild;
 
-                        ResourceControll.instance.gold_cnt -= defBuild.req_gold;
-                        ResourceControll.instance.wood_cnt -= defBuild.req_wood;
+                        ResourceControll.instance.gold_cnt = Resource.gold; 
+                        ResourceControll.instance.wood_cnt = Resource.wood;
                         ResourceControll.instance.SetAllItemCount();
                     }
                     break;
@@ -199,6 +208,7 @@
             Buildings.instance.max_build["woodmine"] = playerdata.townHallDef.max_mining;
             Buildings.instance.max_build["barrack"] = playerdata.townHallDef.max_barrack;
             Buildings.instance.max_build["archer tower"] = playerdata.townHallDef.max_tower;
+            Buildings.instance.max_build["barrel"] = playerdata.townHallDef.max_barrel;
             // Buildings & Defbuilding
             if (playerdata.buildings != null && playerdata.buildings.Count > 0)
             {
@@ -300,37 +310,17 @@
             Nofication.gameObject.SetActive(false);
         }
 
-        void ConnectionResponse(bool sucessful)
-        {
-            Debug.Log("Result");
-            // sucessful: kết quả lắng nghe
-            if(sucessful)
-            {
-                RealtimeNetworking.OnDisconnectedFromServer += DisconnectedFromServer; // check nếu bị disconnect
-                string device = SystemInfo.deviceUniqueIdentifier; // mã thiết bị (giống đ/c MAC)
-                Packet packet = new Packet();
-                packet.Write((int)RequestID.AUTH);
-                packet.Write(device);
-                Sender.TCP_Send(packet); // gửi 1 TCP có header là AUTH, data là device
-
-            }   
-            else
-            {
-                // fail -> reconnect
-            }    
-            RealtimeNetworking.OnConnectingToServerResult -= ConnectionResponse; // xóa phản hồi đã nhận 
-        }
-        public void ConnectToServer()
-        {
-            //RealtimeNetworking.OnConnectingToServerResult: lắng nghe sever
-            RealtimeNetworking.OnConnectingToServerResult += ConnectionResponse;  // nhận phản hồi
-            RealtimeNetworking.Connect(); // kết nối đến server
-        }
-        void DisconnectedFromServer()
+        public void DisconnectedFromServer()
         {
             connected = false;
+            Debug.Log("Disconnected!");
             RealtimeNetworking.OnDisconnectedFromServer -= DisconnectedFromServer;
-            // reconnect
         }
+
+        public void Reconnect()
+        {
+            RealtimeNetworking.OnPacketReceived -= ReceivedPacket;
+            SceneManager.LoadScene(0);
+        }    
     }
 }

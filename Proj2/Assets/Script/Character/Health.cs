@@ -65,5 +65,4 @@ public class Health : MonoBehaviour
         if(Destroy_obj) Destroy(Destroy_obj, delayDestroy);
         else Destroy(transform.parent.gameObject, delayDestroy);
     }
-
 }

@@ -86,6 +86,7 @@ namespace Proj2.clashofclan_2d
             public int max_mining = 0;
             public int max_barrack = 0;
             public int max_tower = 0;
+            public int max_barrel = 0;
         }
 
         public static string Serialize<T>(this T target)

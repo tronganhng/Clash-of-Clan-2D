@@ -18,4 +18,6 @@ public class UnitData
     public int ID{get; private set; }
     [field: SerializeField]
     public GameObject Prefab { get; private set; }
+    [field: SerializeField]
+    public Sprite UiAvatar { get; private set; }
 }

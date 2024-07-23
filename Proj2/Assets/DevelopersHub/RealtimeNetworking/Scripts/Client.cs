@@ -87,7 +87,6 @@ namespace DevelopersHub.RealtimeNetworking.Client
         {
             if (_isConnected || _connecting)
             {
-                Debug.Log("conected");
                 return;
             }
 
@@ -347,10 +346,7 @@ namespace DevelopersHub.RealtimeNetworking.Client
                 {
                     udp.socket.Close();
                 }
-                if (ThreadDispatcher.instance != null)
-                {
-                    ThreadDispatcher.instance.Enqueue(() => RealtimeNetworking.instance._Disconnected());
-                }
+                RealtimeNetworking.instance._Disconnected();
             }
         }
 

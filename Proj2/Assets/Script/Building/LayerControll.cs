@@ -8,7 +8,8 @@ public class LayerControll : MonoBehaviour
     public bool preview_mode;
 
     void BuildingBroke()
-    {       
+    {
+        CombatSystem.instance.buildAlive_cnt--;
         broken_building.SetActive(true);
     }
 
@@ -20,7 +21,8 @@ public class LayerControll : MonoBehaviour
     }
 
     void SpawnItem()
-    {
+    {   
+
         GameObject item = Instantiate(Item, Spawn_pos.position, Quaternion.identity);
         BuildingDefineData buildDef = GetComponentInParent<BuildingDefineData>();
         item.GetComponent<ItemMove>().quantity = (int)buildDef.building.storage;

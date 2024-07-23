@@ -11,20 +11,24 @@ public class CombatSystem : MonoBehaviour
 {
     public UnitDatabaseOS unitDataOS;
     public Camera mainCamera;
-    public GameObject floor, scene, end_UI;
+    public GameObject floor, scene, end_UI, sur_UI;
     public LayerMask GroundLayer;
-    public Text time;
-    public Button Home,Home2, Next;
-    public int battle_time = 100;
+    public Text time, result, goldTaken, woodTaken;
+    public Button Home,Home2, Next, Quit;
+    public int battle_time = 100, buildAlive_cnt = 1, unitAlive_cnt = 1;
     float currentTime = 0;
     public bool is_battle = false;
+
+    public static CombatSystem instance = null;
     private void Start()
     {
+        if (instance == null) instance = this;
         time.enabled = false;
         currentTime = battle_time;
-        Home.onClick.AddListener(() => LoadScene(0));
-        Next.onClick.AddListener(() => LoadScene(1));
-        Home2.onClick.AddListener(() => LoadScene(0));
+        Home.onClick.AddListener(() => LoadScene(1));
+        Next.onClick.AddListener(() => LoadScene(2));
+        Home2.onClick.AddListener(() => LoadScene(1));
+        Quit.onClick.AddListener(EndBattle);
     }
 
     void Update() 
@@ -34,14 +38,13 @@ public class CombatSystem : MonoBehaviour
         {
             Home.gameObject.SetActive(false);
             Next.gameObject.SetActive(false);
+            sur_UI.SetActive(true);
             time.enabled = true;
             currentTime -= Time.deltaTime;
             time.text = (int)currentTime + "s";
-            if (currentTime <= 0)
+            if (currentTime <= 0 || buildAlive_cnt <= 0 || unitAlive_cnt <= 0)
             {
-                is_battle = false;
-                end_UI.SetActive(true);
-                time.text = "END";
+                EndBattle();
             }
         }
     }
@@ -94,14 +97,52 @@ public class CombatSystem : MonoBehaviour
 
     public void LoadScene(int scene_index)
     {
+        Time.timeScale = 1;
         RealtimeNetworking.OnPacketReceived -= Battle.instance.ReceivedPacket;
+        RealtimeNetworking.OnDisconnectedFromServer -= Battle.instance.DisconnectedFromServer;
         scene.GetComponent<Animator>().SetTrigger("transition");
         StartCoroutine(loadLevel(scene_index));
     }
 
     IEnumerator loadLevel(int scene_index)
     {
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(scene_index);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadSceneAsync(scene_index);
+    }
+
+    void EndBattle()
+    {
+        is_battle = false;
+        time.text = "END";
+        SetResultText();
+        SetResourceTaken();
+        end_UI.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    void SetResultText()
+    {
+        if (buildAlive_cnt <= 0) // victory
+        {
+            result.text = "VICTORY";
+            Color new_color;
+            ColorUtility.TryParseHtmlString("#E5D889", out new_color);
+            result.color = new_color;
+        }            
+        else
+        {
+            result.text = "DEFEAT";
+            Color new_color;
+            ColorUtility.TryParseHtmlString("#E77272", out new_color);
+            result.color = new_color;
+        }
+    }
+
+    void SetResourceTaken()
+    {
+        int gold_taken = EnemyResource.instance.max_gold - EnemyResource.instance.gold;
+        int wood_taken = EnemyResource.instance.max_wood - EnemyResource.instance.wood;
+        goldTaken.text = gold_taken.ToString();
+        woodTaken.text = wood_taken.ToString();
     }
 }

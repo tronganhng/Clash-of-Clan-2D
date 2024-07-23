@@ -20,8 +20,9 @@ public class LoadScene : MonoBehaviour
         if(ready_amout > 0)
         {
             RealtimeNetworking.OnPacketReceived -= Player.instance.ReceivedPacket;
+            RealtimeNetworking.OnDisconnectedFromServer -= Player.instance.DisconnectedFromServer;
             loadscene.GetComponent<Animator>().SetTrigger("transition");
-            StartCoroutine(loadLevel(1));
+            StartCoroutine(loadLevel(2));
         }
         else
         {
@@ -39,7 +40,7 @@ public class LoadScene : MonoBehaviour
 
     IEnumerator loadLevel(int scene_index)
     {
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(scene_index);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadSceneAsync(scene_index);
     }
 }

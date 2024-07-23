@@ -305,6 +305,7 @@ namespace DevelopersHub.RealtimeNetworking.Server
                                     townHall.max_barrack = int.Parse(reader["barrack_limit"].ToString());
                                     townHall.max_tower = int.Parse(reader["archertower_limit"].ToString());
                                     townHall.max_mining = int.Parse(reader["mining_limit"].ToString());
+                                    townHall.max_barrel = int.Parse(reader["barrel_limit"].ToString());
                                 }
                             }
                         }
@@ -438,13 +439,16 @@ namespace DevelopersHub.RealtimeNetworking.Server
                         return id;
                     });
                     Data.Building building = await GetBuildingAsync(clientId, id);
+                    Data.Player resource = await GetPlayerDataAsync(clientId);
                     string build = await Data.Serialize<Data.Building>(building);
                     string buildDef = await Data.Serialize<Data.DefineBuilding>(buildingdef1);
+                    string Resource = await Data.Serialize<Data.Player>(resource);
                     Packet packet = new Packet();
                     packet.Write(3);
                     packet.Write(true);
                     packet.Write(buildDef);
                     packet.Write(build);
+                    packet.Write(Resource);
                     Sender.TCP_Send(clientId, packet);
 
                     connection.Close();

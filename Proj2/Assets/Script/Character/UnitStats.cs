@@ -13,4 +13,9 @@ public class UnitStats : MonoBehaviour
         health_script.currentHeal = stat.health;
         health_script.healbar.SetMaxHealth(stat.health);
     }
+
+    public void UpdateUnitAliveCnt()
+    {
+        CombatSystem.instance.unitAlive_cnt--;
+    }
 }

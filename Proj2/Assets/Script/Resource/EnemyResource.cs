@@ -7,6 +7,7 @@ using Proj2.clashofclan_2d;
 public class EnemyResource : MonoBehaviour
 {
     public Text gold_txt, wood_txt;
+    public int max_gold = 0, max_wood = 0;
     public int gold = 0, wood = 0;
 
     public static EnemyResource instance = null;
@@ -35,6 +36,8 @@ public class EnemyResource : MonoBehaviour
                 wood += (int)kvp.Value.GetComponent<BuildingDefineData>().building.storage;
             }
         }
+        max_gold = gold;
+        max_wood = wood;
         SetAllItemCount();
     }
 }

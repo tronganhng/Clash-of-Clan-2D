@@ -11,7 +11,6 @@ namespace Proj2.clashofclan_2d
     {
         public UnitDatabaseOS unitDataOS;
         public GameObject train_unit, Content;
-        public Sprite[] char_sprite;
         public Button[] char_buts;
         public Text slot;
         public int barrack_capa = 0;
@@ -35,7 +34,7 @@ namespace Proj2.clashofclan_2d
                     int char_index = unitDataOS.unitData.FindIndex(data => data.Name == kvp.Key);
                     GameObject training_unit = Instantiate(train_unit);
                     training_unit.transform.SetParent(Content.transform);
-                    training_unit.GetComponent<Train_unit>().sprite = char_sprite[char_index];
+                    training_unit.GetComponent<Train_unit>().sprite = unitDataOS.unitData[char_index].UiAvatar;
                     training_unit.GetComponent<Train_unit>().unitName = kvp.Key;
                     training_unit.GetComponent<Train_unit>().train_cooldown = Units.instance.def_unit[kvp.Key].train_time;
                     training_unit.GetComponent<Train_unit>().quantity_txt.text = "x" + kvp.Value.training;
@@ -59,25 +58,27 @@ namespace Proj2.clashofclan_2d
 
         public void Spawn_TrainUnit(string unitName, int train_time)
         {
-            occupy++;
-            slot.text = occupy + "/" + barrack_capa;
-            int char_index = unitDataOS.unitData.FindIndex(data => data.Name == unitName);
-            if (Units.instance.units[unitName].training == 1)
-            {
-                GameObject training_unit = Instantiate(train_unit); // spawn avatar khi chưa có unit đc train 
-                training_unit.transform.SetParent(Content.transform);
-                training_unit.GetComponent<Train_unit>().sprite = char_sprite[char_index];
-                training_unit.GetComponent<Train_unit>().unitName = unitName;
-                training_unit.GetComponent<Train_unit>().train_cooldown = train_time;
-            }
-            else
-            {
-                foreach (Transform Train_unit in Content.transform)
+            
+            
+                occupy++;
+                slot.text = occupy + "/" + barrack_capa;
+                int char_index = unitDataOS.unitData.FindIndex(data => data.Name == unitName);
+                if (Units.instance.units[unitName].training == 1)
                 {
-                    if (Train_unit.GetComponent<Train_unit>().unitName == unitName)
-                        Train_unit.GetComponent<Train_unit>().quantity_txt.text = "x" + Units.instance.units[unitName].training;
+                    GameObject training_unit = Instantiate(train_unit); // spawn avatar khi chưa có unit đc train 
+                    training_unit.transform.SetParent(Content.transform);
+                    training_unit.GetComponent<Train_unit>().sprite = unitDataOS.unitData[char_index].UiAvatar;
+                    training_unit.GetComponent<Train_unit>().unitName = unitName;
+                    training_unit.GetComponent<Train_unit>().train_cooldown = train_time;
                 }
-            }
+                else
+                {
+                    foreach (Transform Train_unit in Content.transform)
+                    {
+                        if (Train_unit.GetComponent<Train_unit>().unitName == unitName)
+                            Train_unit.GetComponent<Train_unit>().quantity_txt.text = "x" + Units.instance.units[unitName].training;
+                    }
+                }
         }  
 
         public void TrainRequest(int char_index)

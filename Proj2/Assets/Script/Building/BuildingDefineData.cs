@@ -14,6 +14,7 @@ public class BuildingDefineData : MonoBehaviour
     private void Start()
     {
         level_txt.text = def_build.buildingName + "\nlevel " + def_build.level;
+        if (GetComponentInChildren<Health>() == null) return;
         GetComponentInChildren<Health>().MaxHeal = def_build.health;
         GetComponentInChildren<Health>().currentHeal = def_build.health;
         GetComponentInChildren<Health>().healbar.SetMaxHealth(def_build.health);

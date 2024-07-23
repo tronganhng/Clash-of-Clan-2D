@@ -82,6 +82,7 @@ namespace DevelopersHub.RealtimeNetworking.Server
             public int max_mining = 0;
             public int max_barrack = 0;
             public int max_tower = 0;
+            public int max_barrel = 0;
         }
 
         // tác vụ ko đồng bộ: luồng chính vẫn chạy, ko cần chờ mã hóa/giải mã xong

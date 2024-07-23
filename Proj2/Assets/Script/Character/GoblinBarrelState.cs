@@ -15,6 +15,7 @@ public class GoblinBarrelState : MonoBehaviour
     {
         ani = GetComponent<Animator>();
         aipoint = GetComponent<AIDestinationSetter>();
+        atk_dame = GetComponentInParent<BuildingDefineData>().def_build.damage;
     }
 
     void Update()
@@ -40,6 +41,6 @@ public class GoblinBarrelState : MonoBehaviour
 
     void DestroyBarrel()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }

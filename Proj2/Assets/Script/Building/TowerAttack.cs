@@ -22,8 +22,7 @@ public class TowerAttack : MonoBehaviour
     
     void Update()
     {
-        if(target == null) 
-            ScanEnemy();
+        ScanEnemy();
         if(detect)
         {
             Rotation();
@@ -40,6 +39,7 @@ public class TowerAttack : MonoBehaviour
             detect = false;
             target = null;
         }
+        if (target != null) return;
         foreach (Collider2D enemy in find_enemy)
         {
             target = enemy.gameObject;

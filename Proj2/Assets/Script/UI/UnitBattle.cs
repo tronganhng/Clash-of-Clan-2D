@@ -7,7 +7,6 @@ public class UnitBattle : MonoBehaviour
 {
     public UnitDatabaseOS unitDataOS;
     public GameObject Content, unit_prefab;
-    public Sprite[] unit_sprite;
     public int char_select = -1;
     public static UnitBattle instance;
     public Dictionary<string, GameObject> battle_unit = new();
@@ -27,8 +26,8 @@ public class UnitBattle : MonoBehaviour
                 newUnit.transform.SetParent(Content.transform);
                 newUnit.transform.localScale = new Vector3(1, 1, 1);
                 newUnit.GetComponentInChildren<Text>().text = "x" + kvp.Value.ready;
-                newUnit.GetComponent<Image>().sprite = unit_sprite[index];
-                newUnit.GetComponentInChildren<Button>().GetComponent<Image>().sprite = unit_sprite[index];
+                newUnit.GetComponent<Image>().sprite = unitDataOS.unitData[index].UiAvatar;
+                newUnit.GetComponentInChildren<Button>().GetComponent<Image>().sprite = unitDataOS.unitData[index].UiAvatar;
                 newUnit.GetComponentInChildren<Button>().onClick.AddListener(() => UnitSelecting(index));
                 battle_unit[kvp.Key] = newUnit;
             }

@@ -34,8 +34,7 @@ public class Movement : MonoBehaviour
         {
             LookAtEnemy();
         }
-
-        if(aipoint.target == null) // ko co target => quet tim enemy
+        else if(aipoint.target == null) // ko co target => quet tim enemy
         {
             ScanEnemy();
         }
