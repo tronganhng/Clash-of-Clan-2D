@@ -929,23 +929,42 @@ namespace DevelopersHub.RealtimeNetworking.Server
             Task<int> task = Task.Run(() =>
             {
                 int storage = 0;
+                bool foundAccount = false;
                 using (MySqlConnection connection = GetMySqlConnection())
                 {
-                    string query = String.Format("SELECT sum(u.training)+sum(u.ready) AS storage FROM units u JOIN define_unit du ON u.name = du.name AND u.level = du.level WHERE u.account_id = {0};", account_id);
+                    string query = String.Format("SELECT * FROM units WHERE account_id = {0};", account_id);
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            if (reader.HasRows)
+                            if (!reader.HasRows)
                             {
-                                while (reader.Read())
+                                storage = 0;
+                            }
+                            else
+                            {
+                                foundAccount = true;                                
+                            }                                
+                        }
+                    }
+                    if(foundAccount)
+                    {
+                        query = String.Format("SELECT sum(u.training)+sum(u.ready) AS storage FROM units u JOIN define_unit du ON u.name = du.name AND u.level = du.level WHERE u.account_id = {0};", account_id);
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.HasRows)
                                 {
-                                    storage = int.Parse(reader["storage"].ToString());
-
+                                    while (reader.Read())
+                                    {
+                                        storage = int.Parse(reader["storage"].ToString());
+                                    }
                                 }
                             }
                         }
-                    }
+                    }    
+                    connection.Close();
                 }
                 return storage;
             });

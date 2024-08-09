@@ -44,7 +44,7 @@ public class CombatSystem : MonoBehaviour
             time.text = (int)currentTime + "s";
             if (currentTime <= 0 || buildAlive_cnt <= 0 || unitAlive_cnt <= 0)
             {
-                EndBattle();
+                StartCoroutine(EndBattleDelay());
             }
         }
     }
@@ -108,6 +108,16 @@ public class CombatSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadSceneAsync(scene_index);
+    }
+
+    IEnumerator EndBattleDelay ()
+    {
+        yield return new WaitForSeconds(1.5f);
+        is_battle = false;
+        time.text = "END";
+        SetResultText();
+        SetResourceTaken();
+        end_UI.SetActive(true);
     }
 
     void EndBattle()

@@ -42,5 +42,6 @@ public class GoblinBarrelState : MonoBehaviour
     void DestroyBarrel()
     {
         Destroy(transform.parent.gameObject);
+        CombatSystem.instance.buildAlive_cnt--;
     }
 }
